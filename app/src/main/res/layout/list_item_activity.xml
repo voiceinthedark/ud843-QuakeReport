@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height">
+
+    <TextView
+        android:id="@+id/item_magnitude"
+        tools:text="tv1"
+        style="@style/list_item_style"
+        android:gravity="start|center_vertical"
+        />
+    <TextView
+        android:id="@+id/item_location"
+        tools:text="tv2 a bit longer name"
+        style="@style/list_item_style"
+        android:gravity="center_vertical"
+        />
+    <TextView
+        android:id="@+id/item_date"
+        tools:text="tv3 also longer name"
+        style="@style/list_item_style"
+        android:gravity="end|center_vertical"
+        />
+
+</LinearLayout>

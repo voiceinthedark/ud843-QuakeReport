@@ -21,6 +21,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 public class EarthquakeActivity extends AppCompatActivity {
 
@@ -32,24 +35,47 @@ public class EarthquakeActivity extends AppCompatActivity {
         setContentView(R.layout.earthquake_activity);
 
         // Create a fake list of earthquake locations.
-        ArrayList<String> earthquakes = new ArrayList<>();
-        earthquakes.add("San Francisco");
-        earthquakes.add("London");
-        earthquakes.add("Tokyo");
-        earthquakes.add("Mexico City");
-        earthquakes.add("Moscow");
-        earthquakes.add("Rio de Janeiro");
-        earthquakes.add("Paris");
+
+        //extract earthquakes object from the QueryUtils
+        List<EarthQuake> earthQuakes = QueryUtils.extractEarthquakes();
+        /*earthQuakes.add(new EarthQuake.Builder("San Francisco")
+        .magnitude(7.2)
+                .date(new GregorianCalendar(2016,2,2).getTime())
+        .build());
+        earthQuakes.add(new EarthQuake.Builder("London")
+                .magnitude(6.1)
+                .date(new GregorianCalendar(2015,6,20).getTime())
+                .build());
+        earthQuakes.add(new EarthQuake.Builder("Tokyo")
+                .magnitude(3.9)
+                .date(new GregorianCalendar(2014,10,12).getTime())
+                .build());
+        earthQuakes.add(new EarthQuake.Builder("Mexico City")
+                .magnitude(5.4)
+                .date(new GregorianCalendar(2014,4,3).getTime())
+                .build());
+        earthQuakes.add(new EarthQuake.Builder("Moscow")
+                .magnitude(2.8)
+                .date(new GregorianCalendar(2013,1,31).getTime())
+                .build());
+        earthQuakes.add(new EarthQuake.Builder("Rio de Janeiro")
+                .magnitude(4.9)
+                .date(new GregorianCalendar(2012,8,19).getTime())
+                .build());
+        earthQuakes.add(new EarthQuake.Builder("Paris")
+                .magnitude(1.6)
+                .date(new GregorianCalendar(2011,9,30).getTime())
+                .build());*/
 
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
         // Create a new {@link ArrayAdapter} of earthquakes
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_1, earthquakes);
+        EarthQuakeAdapter earthQuakeAdapter =
+                new EarthQuakeAdapter(this, R.layout.list_item_activity, earthQuakes);
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
-        earthquakeListView.setAdapter(adapter);
+        earthquakeListView.setAdapter(earthQuakeAdapter);
     }
 }
