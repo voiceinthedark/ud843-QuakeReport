@@ -10,19 +10,69 @@
         android:id="@+id/item_magnitude"
         tools:text="tv1"
         style="@style/list_item_style"
+        android:layout_weight="0.5"
         android:gravity="start|center_vertical"
         />
-    <TextView
-        android:id="@+id/item_location"
-        tools:text="tv2 a bit longer name"
-        style="@style/list_item_style"
-        android:gravity="center_vertical"
-        />
-    <TextView
-        android:id="@+id/item_date"
-        tools:text="tv3 also longer name"
-        style="@style/list_item_style"
-        android:gravity="end|center_vertical"
-        />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_offset"
+            style="@style/list_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="offset"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="bottom"
+            android:paddingBottom="0dp"/>
+
+        <TextView
+            android:id="@+id/item_location"
+            tools:text="tv2 a bit longer name"
+            style="@style/list_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:gravity="top"
+            android:paddingTop="0dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/item_date"
+            tools:text="tv3 also longer name"
+            style="@style/list_item_style"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:gravity="end|bottom"
+            android:paddingBottom="0dp"
+            android:textColor="@android:color/darker_gray"
+            />
+
+        <TextView
+
+            android:id="@+id/item_time"
+            tools:text="tv time"
+            style="@style/list_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="end|top"
+            android:paddingTop="0dp"
+            android:textColor="@android:color/darker_gray"/>
+
+
+    </LinearLayout>
+
 
 </LinearLayout>
