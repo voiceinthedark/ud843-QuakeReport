@@ -15,58 +15,58 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 public class EarthquakeActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
+    //url string that will return the last 10 earthquakes with 6.0 magnitude or more
+    public static final String URL_QUERY =
+            "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
+
+
+    /**
+     * setup a click listener
+     */
+    private AdapterView.OnItemClickListener mItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            //get the url of the object at position clicked
+            String url = ((EarthQuake) parent.getAdapter().getItem(position)).getUrl();
+            //setup the intent to view in the browser
+            Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            //start the activity
+            startActivity(openUrlIntent);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        // Create a fake list of earthquake locations.
+        /**
+         * Create our async task and execute it on the URL Query
+         */
+        EarthquakeAsyncTask task = new EarthquakeAsyncTask();
+        task.execute(URL_QUERY);
+    }
 
-        //extract earthquakes object from the QueryUtils
-        List<EarthQuake> earthQuakes = QueryUtils.extractEarthquakes();
-        /*earthQuakes.add(new EarthQuake.Builder("San Francisco")
-        .magnitude(7.2)
-                .date(new GregorianCalendar(2016,2,2).getTime())
-        .build());
-        earthQuakes.add(new EarthQuake.Builder("London")
-                .magnitude(6.1)
-                .date(new GregorianCalendar(2015,6,20).getTime())
-                .build());
-        earthQuakes.add(new EarthQuake.Builder("Tokyo")
-                .magnitude(3.9)
-                .date(new GregorianCalendar(2014,10,12).getTime())
-                .build());
-        earthQuakes.add(new EarthQuake.Builder("Mexico City")
-                .magnitude(5.4)
-                .date(new GregorianCalendar(2014,4,3).getTime())
-                .build());
-        earthQuakes.add(new EarthQuake.Builder("Moscow")
-                .magnitude(2.8)
-                .date(new GregorianCalendar(2013,1,31).getTime())
-                .build());
-        earthQuakes.add(new EarthQuake.Builder("Rio de Janeiro")
-                .magnitude(4.9)
-                .date(new GregorianCalendar(2012,8,19).getTime())
-                .build());
-        earthQuakes.add(new EarthQuake.Builder("Paris")
-                .magnitude(1.6)
-                .date(new GregorianCalendar(2011,9,30).getTime())
-                .build());*/
-
+    /**
+     * Update the UI with the received list of earth quakes
+     *
+     * @param earthQuakes list of earthquake objects fetched from the USGS server
+     */
+    private void updateUI(ArrayList<EarthQuake> earthQuakes) {
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
@@ -77,5 +77,24 @@ public class EarthquakeActivity extends AppCompatActivity {
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(earthQuakeAdapter);
+        /**
+         * Set click listener to open the website for the event
+         */
+        earthquakeListView.setOnItemClickListener(mItemClickListener);
+    }
+
+
+    private class EarthquakeAsyncTask extends AsyncTask<String, Void, ArrayList<EarthQuake>> {
+
+        @Override
+        protected ArrayList<EarthQuake> doInBackground(String... strings) {
+            //extract earthquakes data
+            return QueryUtils.extractEarthquakes(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<EarthQuake> earthQuakes) {
+            updateUI(earthQuakes);
+        }
     }
 }
