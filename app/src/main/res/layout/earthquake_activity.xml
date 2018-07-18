@@ -26,11 +26,18 @@
         android:dividerHeight="0dp"
         android:orientation="vertical" />
 
+    <!-- add an empty state textview that indicates whether data is available or not -->
     <TextView
         android:id="@+id/empty_state_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         />
+    <!--add progress bar non-deterministic indicator -->
+    <ProgressBar
+        android:id="@+id/loading_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -39,7 +40,10 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     private static final String URL_QUERY =
             "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=5&limit=10";
 
+    //empty state text view
     private TextView emptyTextView;
+    //loading progressbar
+    ProgressBar mLoadingProgress;
     /**
      * setup a click listener on the {@link AdapterView.OnItemClickListener}
      */
@@ -64,6 +68,14 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
         //find a reference to empty state textview
         emptyTextView = findViewById(R.id.empty_state_textview);
+        //get reference to the progressbar
+        mLoadingProgress = findViewById(R.id.loading_progressbar);
+        //progress bar is indeterminate, we do not know how long it takes to load the data
+        mLoadingProgress.setIndeterminate(true);
+        //set the loading bar to be visible at activity creation; it will be removed from view
+        //once loading is done and data are fetched
+        mLoadingProgress.setVisibility(View.VISIBLE);
+
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = findViewById(R.id.list);
 
@@ -122,7 +134,8 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         if (data != null && !data.isEmpty()) {
             mEarthQuakeAdapter.addAll(data);
         }
-
+        //remove the progress bar from view once the data has been fetched
+        mLoadingProgress.setVisibility(View.GONE);
     }
 
     /**
