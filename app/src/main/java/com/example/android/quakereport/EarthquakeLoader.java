@@ -12,26 +12,31 @@ import java.util.List;
  * of memory efficiency as well as lifecycle management.
  */
 public class EarthquakeLoader extends AsyncTaskLoader<List<EarthQuake>> {
+
+    private static final String TAG = EarthquakeLoader.class.getSimpleName();
+
     //The url to be requested
     private String mUrl;
 
     /**
      * public constructor of the custom {@link AsyncTaskLoader} class
-     * @param context the application context
-     * @param url the url to be requested
+     *  @param context the application context
+     * @param url     the url to be requested
      */
-    public EarthquakeLoader(Context context, String url){
+    EarthquakeLoader(Context context, String url) {
         super(context);
         mUrl = url;
     }
 
     /**
      * Our work will happen here on the worker thread
+     *
      * @return a list of {@link EarthQuake} objects
      */
     @Nullable
     @Override
     public List<EarthQuake> loadInBackground() {
+
         return QueryUtils.extractEarthquakes(mUrl);
     }
 
@@ -40,6 +45,7 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<EarthQuake>> {
      */
     @Override
     protected void onStartLoading() {
+
         forceLoad();
     }
 }

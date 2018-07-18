@@ -40,7 +40,8 @@ public final class QueryUtils {
      */
     public static ArrayList<EarthQuake> extractEarthquakes(String urlToQuery) {
 
-        if(urlToQuery.equals("")){
+
+        if (urlToQuery.equals("")) {
             return null;
         }
 
@@ -146,7 +147,7 @@ public final class QueryUtils {
     private static String makeHttpRequest(URL url) throws IOException {
         String response = "";
 
-        if(url == null){
+        if (url == null) {
             return response;
         }
 
@@ -165,16 +166,14 @@ public final class QueryUtils {
                 response = getResponseStream(inputStream);
             }
 
-
         } catch (IOException e) {
             Log.e(TAG, "makeHttpRequest: ", e);
-        }
-        finally {
-            if(urlConnection != null) {
+        } finally {
+            if (urlConnection != null) {
                 urlConnection.disconnect();
             }
 
-            if(inputStream != null){
+            if (inputStream != null) {
                 inputStream.close();
             }
         }
@@ -194,7 +193,6 @@ public final class QueryUtils {
             InputStreamReader streamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader reader = new BufferedReader(streamReader);
 
-
             String line = reader.readLine();
             while (line != null) {
                 stringBuilder.append(line);
@@ -203,8 +201,6 @@ public final class QueryUtils {
 
             streamReader.close();
             reader.close();
-
-
         } catch (IOException e) {
             Log.e(TAG, "getResponseStream: ", e);
         }
