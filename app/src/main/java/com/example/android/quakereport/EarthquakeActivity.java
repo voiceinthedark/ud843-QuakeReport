@@ -15,7 +15,10 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -92,14 +95,30 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         earthquakeListView.setAdapter(mEarthQuakeAdapter);
         earthquakeListView.setOnItemClickListener(mItemClickListener);
 
+        /**
+         * Check whether there is internet connection
+         */
+        //Get the connectivity manager
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        //get the NetworkInfo from the connectivity manager
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        //if there is a connection then start loading data, make sure that the null check
+        //comes before the boolean check, otherwise the app will crash with null pointer exception
+        if(networkInfo != null && networkInfo.isConnectedOrConnecting()) {
         /*
           Get the support load manager and initialize the loader.
           the initLoader takes three arguments an id; a {@link Bundle} argument
           and a {@link android.support.v4.app.LoaderManager.LoaderCallbacks}
          */
-        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
-
-
+            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        }else {
+            //hide the loading indicator
+            mLoadingProgress.setVisibility(View.GONE);
+            //else inform the user there is not internet connection
+            emptyTextView.setText(R.string.no_internet);
+        }
     }
 
     /**

@@ -16,7 +16,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.quakereport">
 
+    <!-- Permission to access the internet to fetch data-->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- permission to check whether there is an internet connection -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
