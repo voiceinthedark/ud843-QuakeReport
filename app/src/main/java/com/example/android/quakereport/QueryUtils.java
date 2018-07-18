@@ -40,16 +40,24 @@ public final class QueryUtils {
      */
     public static ArrayList<EarthQuake> extractEarthquakes(String urlToQuery) {
 
+        if(urlToQuery.equals("")){
+            return null;
+        }
+
         // Create an empty ArrayList that we can start adding earthquakes to
         ArrayList<EarthQuake> earthquakes = new ArrayList<>();
 
         //Create a URL object
         URL urlObject = createURL(urlToQuery);
-        String response;
+        String response = "";
 
         if (urlObject != null) {
             //Make Http Connection on the url
-            response = makeHttpRequest(urlObject);
+            try {
+                response = makeHttpRequest(urlObject);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             return null;
         }
@@ -135,12 +143,18 @@ public final class QueryUtils {
         return url;
     }
 
-    private static String makeHttpRequest(URL url) {
+    private static String makeHttpRequest(URL url) throws IOException {
         String response = "";
+
+        if(url == null){
+            return response;
+        }
+
         InputStream inputStream = null;
+        HttpURLConnection urlConnection = null;
 
         try {
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.setReadTimeout(10000);
             urlConnection.setConnectTimeout(15000);
@@ -153,7 +167,16 @@ public final class QueryUtils {
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "makeHttpRequest: ", e);
+        }
+        finally {
+            if(urlConnection != null) {
+                urlConnection.disconnect();
+            }
+
+            if(inputStream != null){
+                inputStream.close();
+            }
         }
         return response;
     }

@@ -11,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class EarthQuakeAdapter extends ArrayAdapter<EarthQuake> {
+public class EarthQuakeAdapter extends ArrayAdapter<EarthQuake> implements Serializable
+        /*in order to save state of object*/ {
 
     private static final String DATE_PATTERN = "MMM, dd yyyy";
     private static final String TIME_PATTERN = "hh:mm a";
