@@ -17,10 +17,12 @@ package com.example.android.quakereport;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -43,7 +45,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     private static final String LOG_TAG = EarthquakeActivity.class.getName();
     //url string that will return the last 10 earthquakes with 5.0 magnitude or more
     private static final String URL_QUERY =
-            "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=5&limit=10";
+            "https://earthquake.usgs.gov/fdsnws/event/1/query";
 
     //empty state text view
     private TextView emptyTextView;
@@ -135,7 +137,23 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     @Override
     public Loader<List<EarthQuake>> onCreateLoader(int id, @Nullable Bundle args) {
 
-        return new EarthquakeLoader(EarthquakeActivity.this, URL_QUERY);
+        //setup the shared preferences class by requesting the default shared Preference
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //Set our min magnitude from our stored preferences file
+        String minMagnitude = sharedPreferences.getString(
+                getString(R.string.settings_min_magnitude_key),
+                getString(R.string.settings_min_magnitude_default)/*default value in case there was no value*/);
+        //setup the base Uri
+        Uri baseUri = Uri.parse(URL_QUERY);
+        //build upon our base uri
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("format", "geojson");
+        uriBuilder.appendQueryParameter("limit", "10");
+        uriBuilder.appendQueryParameter("minmag", minMagnitude);
+        uriBuilder.appendQueryParameter("orderby", "time");
+
+        return new EarthquakeLoader(EarthquakeActivity.this, uriBuilder.toString());
     }
 
     /**
