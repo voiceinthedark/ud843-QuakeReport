@@ -148,6 +148,11 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
                 getString(R.string.settings_order_by_key),
                 getString(R.string.settings_order_by_default));
 
+        //add max magnitude preference
+        String maxMagnitude = sharedPreferences.getString(
+                getString(R.string.settings_max_magnitude_key),
+                getString(R.string.settings_max_magnitude_default));
+
         //setup the base Uri
         Uri baseUri = Uri.parse(URL_QUERY);
         //build upon our base uri
@@ -157,6 +162,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         uriBuilder.appendQueryParameter("limit", "10");
         uriBuilder.appendQueryParameter("minmag", minMagnitude);
         uriBuilder.appendQueryParameter("orderby", orderBy);
+        uriBuilder.appendQueryParameter("maxmagnitude", maxMagnitude);
 
         return new EarthquakeLoader(EarthquakeActivity.this, uriBuilder.toString());
     }
