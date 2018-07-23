@@ -35,6 +35,9 @@ public class SettingsActivity extends AppCompatActivity {
             Preference maxMagnitude = findPreference(getString(R.string.settings_max_magnitude_key));
             bindPreferenceSummaryToValue(maxMagnitude);
 
+            Preference limit = findPreference(getString(R.string.settings_limit_key));
+            bindPreferenceSummaryToValue(limit);
+
         }
 
         @Override

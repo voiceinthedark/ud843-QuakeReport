@@ -39,4 +39,9 @@
     <string name="settings_max_magnitude_label">Maximum Magnitude</string>
     <string name="settings_max_magnitude_key" translatable="false">max_magnitude</string>
     <string name="settings_max_magnitude_default" translatable="false">9</string>
+
+    <!-- Strings for a limit of earthquake objects -->
+    <string name="settings_limit_label">Earthquake data to show</string>
+    <string name="settings_limit_key" translatable="false">limit</string>
+    <string name="settings_limit_default" translatable="false">10</string>
 </resources>

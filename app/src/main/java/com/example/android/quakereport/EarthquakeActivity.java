@@ -153,13 +153,18 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
                 getString(R.string.settings_max_magnitude_key),
                 getString(R.string.settings_max_magnitude_default));
 
+        //set the limit
+        String limit = sharedPreferences.getString(
+                getString(R.string.settings_limit_key),
+                getString(R.string.settings_limit_default));
+
         //setup the base Uri
         Uri baseUri = Uri.parse(URL_QUERY);
         //build upon our base uri
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("format", "geojson");
-        uriBuilder.appendQueryParameter("limit", "10");
+        uriBuilder.appendQueryParameter("limit", limit);
         uriBuilder.appendQueryParameter("minmag", minMagnitude);
         uriBuilder.appendQueryParameter("orderby", orderBy);
         uriBuilder.appendQueryParameter("maxmagnitude", maxMagnitude);
